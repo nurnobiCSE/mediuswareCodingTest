@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% if user.is_authenticated %}
+{% block 'bodyContent' %}
+<p> &nbsp; Welcome, {{user.username}}</p>
+
+<div class="container">
+    <a href="{%url 'logout'%}">Logout</a> <br> <br>
+    <h2><a href="{% url 'taskapi' %}" target="_blank">Get API of Tasks</a></h2>
+    <form method="get">
+        <input type="text" name="title" placeholder="Search by Title" value="{{ request.GET.title }}">
+        <label for="">create</label>
+        <input type="date" name="creation_date" placeholder="Creation Date" value="{{ request.GET.creation_date }}">
+        <label for="">due</label>
+        <input type="date" name="due_date" placeholder="Due Date" value="{{ request.GET.due_date }}">
+        <select name="priority">
+            <option value="">-- Priority --</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+        <select name="is_complete">
+            <option value="">-- Completion Status --</option>
+            <option value="true">Complete</option>
+            <option value="false">Incomplete</option>
+        </select>
+        <input class="btn btn-primary" type="submit" value="Search">
+        <a class="btn-dark btn" href="{% url 'home' %}">reset</a>
+    </form>
+    <br>
+    <table class="table">
+
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">escription</th>
+                <th scope="col">Due Date/t</th>
+                <th scope="col">Priority</th>
+                <th scope="col">is complete</th>
+                <th scope="col">Created at</th>
+                <th scope="col">User</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in tasks %}
+            <tr>
+                <th scope="row">{{data.id}}</th>
+                <td>{{data.title}}</td>
+                <td>{{data.description}}</td>
+                <td>{{data.due_date}}</td>
+                <td>{{data.priority}}</td>
+                <td>{{data.is_complete}}</td>
+                <td>{{data.creation_datetime}}</td>
+                <td>{{data.user}}</td>
+                <td><a href="{% url 'details' data.pk%}">Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock 'bodyContent' %}
+
+{%endif%}

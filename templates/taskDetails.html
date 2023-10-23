@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block 'bodyContent' %}
+ <div class="container">
+ <a href="{% url 'home' %}">Back</a>   <br>
+<img src="{{ task.task_img.url }}" alt="Task Photo"> <br>
+<h1>Task Details</h1>
+<p>Title: {{ task.title }}</p>
+<p>Description: {{ task.description }}</p>
+<p>Due Date: {{ task.due_date }}</p>
+<p>Priority: {{ task.priority }}</p>
+<p>Is Complete: {{ task.is_complete }}</p>
+<p>Creation Date: {{ task.creation_datetime }}</p>
+
+{%if user.username == "admin" %}
+<p> <a class="btn btn-primary" href="{% url 'update' task.id %}">Edit</a> &nbsp;&nbsp;&nbsp; <a class="btn btn-danger" href="{% url 'delete' task.id %}">Delete</a></p>
+{% else %}
+<p class="text-danger"> can't modify this data except admin user</p>
+{% endif %}
+ 
+ 
+ </div>
+{% endblock 'bodyContent' %}
